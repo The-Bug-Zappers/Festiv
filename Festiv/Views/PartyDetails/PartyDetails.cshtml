@@ -31,12 +31,12 @@
         @foreach (var game in Model.Games ?? new List<Game>())
         {
             <li>
-                <a asp-controller="PartyDetails" asp-action="GameDetails" asp-route-partyId ="@partyId" asp-route-gameId="@game.GameId">@game.GameName</a>
+                <a asp-controller="PartyDetails" asp-action="GameDetails" asp-route-partyId ="@Model.Party.Id" asp-route-gameId="@game.GameId">@game.GameName</a>
             </li>
         }
     </ul>
     <div>
-        <a asp-controller= "PartyDetails" asp-action="CreateGame" asp-route-partyId="@partyId">Create a new game</a>
+        <a asp-controller= "PartyDetails" asp-action="CreateGame" asp-route-partyId="@Model.Party.Id">Create a new game</a>
     </div>
 
     
@@ -53,12 +53,12 @@
         <div>
             <p><strong>@post.UserName:</strong> @post.PersonDescription</p>
             <p><strong>Contact:</strong> @post.ContactInfo</p>
-            <form asp-action="Delete" method="post" asp-controller="MissedConnections">
+            <form asp-action="Delete" method="post" asp-controller="MissedConnection" asp-route-partyId=@Model.Party.Id>
                 <input type="hidden" name="id" value="@post.Id" />
                 <button type="submit">Delete</button>
             </form>
         </div>
     }
 
-    <a href="@Url.Action("CreatePost", "MissedConnection")">Create a new post</a>
+    <a asp-controller="MissedConnection" asp-action="CreatePost" asp-route-partyId = "@Model.Party.Id">Create a new post</a>
 </div>

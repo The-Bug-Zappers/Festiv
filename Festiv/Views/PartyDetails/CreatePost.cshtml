@@ -1,6 +1,9 @@
 @model Festiv.Models.MissedConnection
 
-<form asp-action="Create" method="post">
+@{
+    var partyId = ViewContext.RouteData.Values["partyId"];
+}
+<form asp-controller="MissedConnection" asp-action="CreatePost" asp-route-partyid=@partyId method="post">
     <div>
         <label asp-for="UserName"></label>
         <input asp-for="UserName" />

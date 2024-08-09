@@ -5,35 +5,36 @@ using Festiv.Data;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-public class MissedConnectionsController : Controller
+// [Route("PartyDetails/{partyId}/MissedConnection")]
+public class MissedConnectionController : Controller
 {
     private readonly FestivDbContext _context;
 
-    public MissedConnectionsController(FestivDbContext context)
+    public MissedConnectionController(FestivDbContext context)
     {
         _context = context;
     }
 
-    [HttpGet]
-    public IActionResult Create()
+    [HttpGet("{partyId}")]
+    public IActionResult CreatePost(int partyId)
     {
-        return View();
+        return View("Views/PartyDetails/CreatePost.cshtml");
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Create(MissedConnection model)
+    [HttpPost("{partyId}")]
+    public async Task<IActionResult> CreatePost(int partyId, MissedConnection model)
     {
         if (ModelState.IsValid)
         {
             _context.MissedConnections.Add(model);
             await _context.SaveChangesAsync();
-            return RedirectToAction("PartyDetails", "PartyDetails", new { partyId = 1 }); // Adjust partyId as needed
+            return RedirectToAction("Index", "PartyDetails", new { partyId = partyId }); 
         }
         return View(model);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Delete(int id)
+    [HttpPost("delete/{partyId}")]
+    public async Task<IActionResult> Delete(int id, int partyId)
     {
         var post = await _context.MissedConnections.FindAsync(id);
         if (post != null)
@@ -41,6 +42,6 @@ public class MissedConnectionsController : Controller
             _context.MissedConnections.Remove(post);
             await _context.SaveChangesAsync();
         }
-        return RedirectToAction("PartyDetails", "PartyDetails", new { partyId = 1 }); // Adjust partyId as needed
+        return RedirectToAction( "Index", "PartyDetails", new { partyId = partyId }); 
     }
 }

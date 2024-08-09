@@ -23,7 +23,6 @@ namespace Festiv.Controllers
         [HttpGet("/spotify/login/{partyId}")]
         public IActionResult Login(int partyId)
         {
-            Console.WriteLine($"Spotify Login {partyId}");
             PartyId = partyId;
             string clientId = "5275b4abc3474605bec58bb4c9d83d23";
             string redirectUri = Url.Action("Callback", "Spotify", null, Request.Scheme);

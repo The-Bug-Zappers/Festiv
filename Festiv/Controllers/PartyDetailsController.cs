@@ -25,7 +25,6 @@ namespace Festiv.Controllers
         [HttpGet("{partyId}")]
         public async Task<IActionResult> Index(int partyId)
         {
-            Console.WriteLine($"Got here with PartyDetails controller {partyId}");
             // Fetch party and related details
             var party = await _context.Parties
                 .Include(p => p.Details)
@@ -44,7 +43,6 @@ namespace Festiv.Controllers
             {
                 // return RedirectToAction("Login", "Spotify");
                 string route = $"/Spotify/login/{partyId}";
-                Console.WriteLine(route);
                 return Redirect(route);
             }
 
@@ -53,7 +51,6 @@ namespace Festiv.Controllers
             var currentTrack = await _spotifyService.GetTrackAsync(trackId, accessToken);
             var playlistId = "37i9dQZF1DWXti3N4Wp5xy?si=732ec57f58c4404a";
             // Prepare view model with party details, games, and current track
-            Console.WriteLine($"Done Login {partyId}");
             var partyDetailsViewModel = new PartyDetailsViewModel
             {
                 Party = party,
@@ -248,5 +245,6 @@ namespace Festiv.Controllers
             await _spotifyService.AddTrackToPlaylist(accessToken, trackUri);
             return RedirectToAction("PartyDetails", new { partyId = ViewBag.PartyId });
         }
+
     }
 }
